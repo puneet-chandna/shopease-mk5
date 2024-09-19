@@ -30,7 +30,8 @@ export default function ProductPage() {
         const data = await response.json()
         setProduct(data)
       } catch (err) {
-        setError('Error loading product. Please try again.')
+          console.error(err);
+          setError('Error loading product. Please try again.')
       } finally {
         setLoading(false)
       }
@@ -52,7 +53,7 @@ export default function ProductPage() {
         throw new Error('Failed to add to cart')
       }
       alert('Product added to cart!')
-    } catch (err) {
+    } catch {
       alert('Error adding to cart. Please try again.')
     }
   }
