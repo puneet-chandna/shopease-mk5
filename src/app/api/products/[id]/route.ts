@@ -1,35 +1,21 @@
-// import { NextResponse } from 'next/server'
-// import { connectToDatabase } from '../../../../../lib/mongodb'
-// import Product from '../../../../../models/Product'
-
-// export async function GET(
-//   request: Request,
-//   { params }: { params: { id: string } }
-// ) {
-//   try {
-//     await connectToDatabase()
-//     const product = await Product.findById(params.id)
-//     if (!product) {
-//       return NextResponse.json({ error: 'Product not found' }, { status: 404 })
-//     }
-//     return NextResponse.json(product)
-//   } catch (error) {
-//     console.error(error);
-//     return NextResponse.json({ error: 'Failed to fetch product' }, { status: 500 })
-//   }
-// }
-
 
 import { NextResponse } from 'next/server'
-import { products } from '../../../../data/products'
+import { connectToDatabase } from '../../../../../lib/mongodb'
+import Product from '../../../../../models/Product'
 
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
 ) {
-  const product = products.find(p => p._id === params.id)
-  if (!product) {
-    return NextResponse.json({ error: 'Product not found' }, { status: 404 })
+  try {
+    await connectToDatabase()
+    const product = await Product.findById(params.id)
+    if (!product) {
+      return NextResponse.json({ error: 'Product not found' }, { status: 404 })
+    }
+    return NextResponse.json(product)
+  } catch (error) {
+    console.error(error) 
+    return NextResponse.json({ error: 'Failed to fetch product' }, { status: 500 })
   }
-  return NextResponse.json(product)
 }

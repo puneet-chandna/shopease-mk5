@@ -1,15 +1,26 @@
 import { NextResponse } from 'next/server'
-import { products } from '../../../data/products'
+import { connectToDatabase } from '../../../../lib/mongodb'
+import Product from '../../../../models/Product'
 
 let cart: { productId: string; quantity: number }[] = []
 
+
 export async function GET() {
-  const cartWithProducts = cart.map(item => ({
-    ...item,
-    product: products.find(p => p._id === item.productId)
-  }))
-  return NextResponse.json(cartWithProducts)
+  try {
+    await connectToDatabase()
+    const cartWithProducts = await Promise.all(
+      cart.map(async (item) => {
+        const product = await Product.findById(item.productId)
+        return { ...item, product }
+      })
+    )
+    return NextResponse.json(cartWithProducts)
+  } catch (error) {
+    console.error(error) // Log the error
+    return NextResponse.json({ error: 'Failed to fetch cart' }, { status: 500 })
+  }
 }
+
 
 export async function POST(request: Request) {
   const { productId, quantity } = await request.json()

@@ -1,3 +1,13 @@
+/*interface FeatureCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
+
+const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
+  */
+
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -6,9 +16,15 @@ import { useInView } from 'react-intersection-observer'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ShoppingCartIcon, CreditCardIcon, TruckIcon } from '@heroicons/react/24/outline'
-import { Product } from '../data/products'
 
-
+interface Product {
+  _id: string;
+  title: string;
+  description: string;
+  price: number;
+  stock: number;
+  image: string;
+}
 interface FeatureCardProps {
   icon: React.ReactNode;
   title: string;
@@ -47,6 +63,7 @@ const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
 
 export default function LandingPage() {
   const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
   const controls = useAnimation()
   const [ref, inView] = useInView()
 
@@ -59,7 +76,14 @@ export default function LandingPage() {
   useEffect(() => {
     fetch('/api/products')
       .then(res => res.json())
-      .then(data => setProducts(data))
+      .then(data => {
+        setProducts(data)
+        setLoading(false)
+      })
+      .catch(error => {
+        console.error('Error fetching products:', error)
+        setLoading(false)
+      })
   }, [])
 
   return (
@@ -103,28 +127,32 @@ export default function LandingPage() {
 
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <h2 className="text-3xl font-extrabold text-gray-900 mb-8 text-center">Featured Products</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {products.slice(0, 3).map(product => (
-              <motion.div
-                key={product._id}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="bg-white p-6 rounded-lg shadow-lg"
-              >
-                <Image src={product.image} alt={product.title} width={300} height={300} className="w-full h-48 object-cover mb-4 rounded" />
-                <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
-                <p className="text-gray-600 mb-4">{product.description}</p>
-                <p className="text-2xl font-bold text-blue-600 mb-4">${product.price.toFixed(2)}</p>
-                <Link
-                  href={`/products/${product._id}`}
-                  className="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition duration-300"
+          {loading ? (
+            <p className="text-center">Loading products...</p>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {products.slice(0, 3).map(product => (
+                <motion.div
+                  key={product._id}
+                  initial={{ opacity: 0, y: 50 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="bg-white p-6 rounded-lg shadow-lg"
                 >
-                  View Details
-                </Link>
-              </motion.div>
-            ))}
-          </div>
+                  <Image src={product.image} alt={product.title} width={300} height={300} className="w-full h-48 object-cover mb-4 rounded" />
+                  <h3 className="text-xl font-semibold mb-2">{product.title}</h3>
+                  <p className="text-gray-600 mb-4">{product.description}</p>
+                  <p className="text-2xl font-bold text-blue-600 mb-4">${product.price.toFixed(2)}</p>
+                  <Link
+                    href={`/products/${product._id}`}
+                    className="block w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 transition duration-300"
+                  >
+                    View Details
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          )}
         </section>
 
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -188,5 +216,3 @@ export default function LandingPage() {
     </div>
   )
 }
-
-
