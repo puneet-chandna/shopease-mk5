@@ -7,7 +7,6 @@
 
 const FeatureCard = ({ icon, title, description }: FeatureCardProps) => {
   */
-
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -16,15 +15,8 @@ import { useInView } from 'react-intersection-observer'
 import Link from 'next/link'
 import Image from 'next/image'
 import { ShoppingCartIcon, CreditCardIcon, TruckIcon } from '@heroicons/react/24/outline'
+import { Product } from '../models/Product'
 
-interface Product {
-  _id: string;
-  title: string;
-  description: string;
-  price: number;
-  stock: number;
-  image: string;
-}
 interface FeatureCardProps {
   icon: React.ReactNode;
   title: string;
@@ -133,7 +125,7 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {products.slice(0, 3).map(product => (
                 <motion.div
-                  key={product._id}
+                  key={product._id.toString()}
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
