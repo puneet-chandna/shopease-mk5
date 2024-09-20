@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import { MongoClient, Db } from 'mongodb'
 
 const MONGODB_URI = process.env.MONGODB_URI || ''
 
@@ -10,12 +10,12 @@ if (!MONGODB_URI) {
 
 interface CachedConnection {
   client: MongoClient | null;
-  db: any | null;
+  db: Db | null;
 }
 
 let cached: CachedConnection = { client: null, db: null }
 
-export async function connectToDatabase() {
+export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db }> {
   if (cached.client && cached.db) {
     return { client: cached.client, db: cached.db }
   }
