@@ -61,7 +61,7 @@ export default function CartPage() {
         <p>Your cart is empty.</p>
       ) : (
         <>
-          {cartItems &&
+          {cartItems.length > 0 &&
             cartItems.map((item) => (
               <div
                 key={item.productId}
