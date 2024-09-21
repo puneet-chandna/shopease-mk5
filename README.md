@@ -38,7 +38,7 @@ ShopEase is a modern, full-stack e-commerce platform built with Next.js, React, 
 ## Project Structure
 
 ```
-ecom/
+shopease-mk5/
 ├── src/
 │   ├── app/
 │   │   ├── api/
