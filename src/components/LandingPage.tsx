@@ -80,18 +80,6 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <header className="bg-white shadow">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-gray-900">ShopEase</h1>
-            <div className="flex space-x-4">
-              <Link href="/products" className="text-gray-500 hover:text-gray-900">Products</Link>
-              <Link href="/cart" className="text-gray-500 hover:text-gray-900">Cart</Link>
-            </div>
-          </div>
-        </nav>
-      </header>
-
       <main>
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <motion.div
@@ -197,7 +185,7 @@ export default function LandingPage() {
       <footer className="bg-gray-800 text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
-            <p>&copy; 2024 ShopEase. All rights reserved.</p>
+            <p>&copy; 2023 ShopEase. All rights reserved.</p>
             <div className="flex space-x-4">
               <Link href="/terms" className="hover:text-gray-300">Terms of Service</Link>
               <Link href="/privacy" className="hover:text-gray-300">Privacy Policy</Link>
