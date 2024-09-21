@@ -24,6 +24,7 @@ export async function connectToDatabase(): Promise<{ client: MongoClient; db: Db
 
   try {
     await client.connect()
+    console.log("Connected TO DB")
     const db = client.db('shop-ease')
 
     cached = { client, db }

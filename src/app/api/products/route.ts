@@ -5,7 +5,8 @@ import { Product, ProductCollection } from '../../../models/Product'
 export async function GET() {
   try {
     const { db } = await connectToDatabase()
-    const products = await db.collection(ProductCollection).find({}).toArray() as Product[]
+    const products = await db.collection(ProductCollection).find({}).toArray()
+    console.log(products)
     return NextResponse.json(products)
   } catch (error) {
     console.error('Failed to fetch products:', error)

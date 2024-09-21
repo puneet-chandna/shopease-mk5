@@ -9,7 +9,8 @@ export async function GET(
 ) {
   try {
     const { db } = await connectToDatabase()
-    const product = await db.collection(ProductCollection).findOne({ _id: new ObjectId(params.id) }) as Product | null
+    const id = params.id
+    const product = await db.collection<Product>(ProductCollection).findOne({ _id: id }) as Product | null
     if (!product) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 })
     }
